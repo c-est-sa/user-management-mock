@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../components/pages/Login";
 import Page404 from "../components/pages/Page404";
 import { homeRoutes } from "./HomeRoutes";
+import HeaderLayout from "../components/templates/HeaderLayout";
 
 const Router: FC = memo(() => {
   return (
@@ -14,7 +15,7 @@ const Router: FC = memo(() => {
           <Route
             key={route.path}
             path={route.path}
-            element={route.element}
+            element={<HeaderLayout>{route.element}</HeaderLayout>}
           ></Route>
         ))}
       </Route>
