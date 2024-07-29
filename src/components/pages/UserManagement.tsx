@@ -1,12 +1,22 @@
-import { Box, Center, Spinner, Wrap, WrapItem } from "@chakra-ui/react";
-import React, { FC, memo, useEffect, useRef } from "react";
+import {
+  Box,
+  Center,
+  Spinner,
+  Wrap,
+  WrapItem,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React, { FC, memo, useCallback, useEffect, useRef } from "react";
 
 import UserCard from "../organisms/user/UserCard";
 import useAllUsers from "../../hooks/useAllUsers";
+import UserDetailModal from "../organisms/user/UserDetailModal";
 
 const UserManagement: FC = memo(() => {
   const { getAllUsers, isLoading, users } = useAllUsers();
   const isInirialMount = useRef(true);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (isInirialMount.current) {
@@ -14,6 +24,8 @@ const UserManagement: FC = memo(() => {
       (async () => getAllUsers())();
     }
   }, [getAllUsers]);
+
+  const onClickUser = useCallback(() => onOpen(), [onOpen]);
 
   return (
     <>
@@ -30,12 +42,15 @@ const UserManagement: FC = memo(() => {
                   imageUrl={`https://picsum.photos/200?random=${user.id}`}
                   name={user.username}
                   fullname={user.name}
+                  onClick={onClickUser}
                 ></UserCard>
               </WrapItem>
             ))}
           </Wrap>
         </Box>
       )}
+
+      <UserDetailModal isOpen={isOpen} onClose={onClose}></UserDetailModal>
     </>
   );
 });
