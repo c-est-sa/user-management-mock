@@ -3,9 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { User } from "../types/api/user";
+import useMessage from "./useMessage";
 
 const useAuth = () => {
   const navigate = useNavigate();
+  const { showMessage } = useMessage();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,17 +20,24 @@ const useAuth = () => {
           `https://jsonplaceholder.typicode.com/users/${id}`
         );
         if (res.data) {
+          showMessage({ title: "successfully logged in", status: "success" });
           navigate("/home");
         } else {
-          alert("no user found");
+          showMessage({
+            title: "failed to log in: no user found",
+            status: "error",
+          });
         }
       } catch (error) {
-        alert("error");
+        showMessage({
+          title: "failed to log in: something went wrong",
+          status: "error",
+        });
       } finally {
         setIsLoading(false);
       }
     },
-    [navigate]
+    [navigate, showMessage]
   );
   return { login, isLoading };
 };
