@@ -23,7 +23,7 @@ const UserManagement: FC = memo(() => {
         </Center>
       ) : (
         <Box maxWidth="1200px" margin="0 auto">
-          <Wrap p={{ base: 4, md: 10 }} justify="flex-start">
+          <Wrap p={{ base: 4, md: 10 }} justify="center">
             {users.map((user) => (
               <WrapItem key={user.id}>
                 <UserCard
