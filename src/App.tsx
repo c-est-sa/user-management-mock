@@ -13,8 +13,6 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <Button colorScheme="teal">BUTTON</Button>
-        <p>ddddddd</p>
         <Router></Router>
       </BrowserRouter>
     </ChakraProvider>
