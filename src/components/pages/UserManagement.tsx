@@ -18,6 +18,18 @@ const UserManagement: FC = memo(() => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const clickedUser = useRef<{
+    name: string;
+    fullName: string;
+    email: string;
+    tel: string;
+  }>({
+    name: "",
+    fullName: "",
+    email: "",
+    tel: "",
+  });
+
   useEffect(() => {
     if (isInirialMount.current) {
       isInirialMount.current = false;
@@ -25,7 +37,13 @@ const UserManagement: FC = memo(() => {
     }
   }, [getAllUsers]);
 
-  const onClickUser = useCallback(() => onOpen(), [onOpen]);
+  const onClickUser = useCallback(
+    (name: string, fullName: string, email: string, tel: string) => {
+      onOpen();
+      clickedUser.current = { name, fullName, email, tel };
+    },
+    [onOpen]
+  );
 
   return (
     <>
@@ -42,7 +60,14 @@ const UserManagement: FC = memo(() => {
                   imageUrl={`https://picsum.photos/200?random=${user.id}`}
                   name={user.username}
                   fullname={user.name}
-                  onClick={onClickUser}
+                  onClick={() =>
+                    onClickUser(
+                      user.username,
+                      user.name,
+                      user.email,
+                      user.phone
+                    )
+                  }
                 ></UserCard>
               </WrapItem>
             ))}
@@ -50,7 +75,11 @@ const UserManagement: FC = memo(() => {
         </Box>
       )}
 
-      <UserDetailModal isOpen={isOpen} onClose={onClose}></UserDetailModal>
+      <UserDetailModal
+        isOpen={isOpen}
+        onClose={onClose}
+        userObj={clickedUser.current}
+      ></UserDetailModal>
     </>
   );
 });

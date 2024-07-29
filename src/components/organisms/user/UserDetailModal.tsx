@@ -15,10 +15,16 @@ import {
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  userObj: {
+    name: string;
+    fullName: string;
+    email: string;
+    tel: string;
+  };
 };
 
 const UserDetailModal: FC<Props> = memo((props) => {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, userObj } = props;
 
   return (
     <Modal
@@ -35,19 +41,19 @@ const UserDetailModal: FC<Props> = memo((props) => {
           <Stack spacing={4}>
             <FormControl>
               <FormLabel>Name</FormLabel>
-              <Input value="" isReadOnly></Input>
+              <Input value={userObj.name} isReadOnly></Input>
             </FormControl>
             <FormControl>
               <FormLabel>Full Name</FormLabel>
-              <Input value="" isReadOnly></Input>
+              <Input value={userObj.fullName} isReadOnly></Input>
             </FormControl>
             <FormControl>
               <FormLabel>Email</FormLabel>
-              <Input value="" isReadOnly></Input>
+              <Input value={userObj.email} isReadOnly></Input>
             </FormControl>
             <FormControl>
               <FormLabel>Tel</FormLabel>
-              <Input value="" isReadOnly></Input>
+              <Input value={userObj.tel} isReadOnly></Input>
             </FormControl>
           </Stack>
         </ModalBody>
