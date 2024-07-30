@@ -6,7 +6,14 @@ import {
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { FC, memo, useCallback, useEffect, useRef } from "react";
+import React, {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import UserCard from "../organisms/user/UserCard";
 import useAllUsers from "../../hooks/useAllUsers";
@@ -14,16 +21,11 @@ import UserDetailModal from "../organisms/user/UserDetailModal";
 
 const UserManagement: FC = memo(() => {
   const { getAllUsers, isLoading, users } = useAllUsers();
-  const isInirialMount = useRef(true);
+  const isInitialMount = useRef(true);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const clickedUser = useRef<{
-    name: string;
-    fullName: string;
-    email: string;
-    tel: string;
-  }>({
+  const [clickedUser, setClickedUser] = useState({
     name: "",
     fullName: "",
     email: "",
@@ -31,16 +33,16 @@ const UserManagement: FC = memo(() => {
   });
 
   useEffect(() => {
-    if (isInirialMount.current) {
-      isInirialMount.current = false;
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
       (async () => getAllUsers())();
     }
   }, [getAllUsers]);
 
   const onClickUser = useCallback(
     (name: string, fullName: string, email: string, tel: string) => {
+      setClickedUser({ name, fullName, email, tel });
       onOpen();
-      clickedUser.current = { name, fullName, email, tel };
     },
     [onOpen]
   );
@@ -78,7 +80,7 @@ const UserManagement: FC = memo(() => {
       <UserDetailModal
         isOpen={isOpen}
         onClose={onClose}
-        userObj={clickedUser.current}
+        userObj={clickedUser}
       ></UserDetailModal>
     </>
   );
