@@ -1,9 +1,9 @@
 import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
 import React, { FC, memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MenuIconButton from "../../atoms/buttons/MenuIconButton";
 import MenuDrawer from "../../molecules/MenuDrawer";
-import { useNavigate } from "react-router-dom";
 
 const Header: FC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
