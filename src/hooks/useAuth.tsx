@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import { User } from "../types/api/user";
 import useMessage from "./useMessage";
+import useLoginUser from "./useLoginUser";
 
 const useAuth = () => {
   const navigate = useNavigate();
   const { showMessage } = useMessage();
+  const { setLoginUser } = useLoginUser();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,6 +22,7 @@ const useAuth = () => {
           `https://jsonplaceholder.typicode.com/users/${id}`
         );
         if (res.data) {
+          setLoginUser(res.data);
           showMessage({ title: "successfully logged in", status: "success" });
           navigate("/home");
         } else {
@@ -37,7 +40,7 @@ const useAuth = () => {
         setIsLoading(false);
       }
     },
-    [navigate, showMessage]
+    [navigate, showMessage, setLoginUser]
   );
   return { login, isLoading };
 };

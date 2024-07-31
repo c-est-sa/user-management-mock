@@ -18,6 +18,7 @@ import React, {
 import UserCard from "../organisms/user/UserCard";
 import useAllUsers from "../../hooks/useAllUsers";
 import UserDetailModal from "../organisms/user/UserDetailModal";
+import useLoginUser from "../../hooks/useLoginUser";
 
 const UserManagement: FC = memo(() => {
   const { getAllUsers, isLoading, users } = useAllUsers();
@@ -31,6 +32,9 @@ const UserManagement: FC = memo(() => {
     email: "",
     tel: "",
   });
+
+  const { loginUser } = useLoginUser();
+  console.log(loginUser);
 
   useEffect(() => {
     if (isInitialMount.current) {
