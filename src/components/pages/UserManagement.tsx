@@ -18,6 +18,7 @@ import React, {
 import UserCard from "../organisms/user/UserCard";
 import useAllUsers from "../../hooks/useAllUsers";
 import UserDetailModal from "../organisms/user/UserDetailModal";
+import useLoginUser from "../../hooks/useLoginUser";
 
 const UserManagement: FC = memo(() => {
   const { getAllUsers, isLoading, users } = useAllUsers();
@@ -31,6 +32,8 @@ const UserManagement: FC = memo(() => {
     email: "",
     tel: "",
   });
+
+  const { loginUser } = useLoginUser();
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -81,6 +84,7 @@ const UserManagement: FC = memo(() => {
         isOpen={isOpen}
         onClose={onClose}
         userObj={clickedUser}
+        isAdmin={loginUser?.isAdmin}
       ></UserDetailModal>
     </>
   );

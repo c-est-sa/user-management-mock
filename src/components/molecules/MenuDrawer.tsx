@@ -7,6 +7,9 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/react";
 
+import useLoginUser from "../../hooks/useLoginUser";
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   onClose: () => void;
   isOpen: boolean;
@@ -23,6 +26,9 @@ const MenuDrawer: FC<Props> = memo((props) => {
     onClickUserManagement,
     onClickSetting,
   } = props;
+
+  const { setLoginUser } = useLoginUser();
+  const navigate = useNavigate();
 
   return (
     <Drawer placement="left" size="xs" onClose={onClose} isOpen={isOpen}>
@@ -55,6 +61,16 @@ const MenuDrawer: FC<Props> = memo((props) => {
               }}
             >
               Setting
+            </Button>
+
+            <Button
+              w="100%"
+              onClick={() => {
+                setLoginUser(null);
+                navigate("/");
+              }}
+            >
+              Log out
             </Button>
           </DrawerBody>
         </DrawerContent>
