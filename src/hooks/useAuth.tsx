@@ -22,7 +22,8 @@ const useAuth = () => {
           `https://jsonplaceholder.typicode.com/users/${id}`
         );
         if (res.data) {
-          setLoginUser(res.data);
+          const isAdmin = res.data.id === 10 || false;
+          setLoginUser({ ...res.data, isAdmin });
           showMessage({ title: "successfully logged in", status: "success" });
           navigate("/home");
         } else {
