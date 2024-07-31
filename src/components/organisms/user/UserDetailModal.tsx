@@ -1,4 +1,4 @@
-import React, { FC, memo } from "react";
+import React, { ChangeEvent, FC, memo, useEffect, useState } from "react";
 import {
   Stack,
   FormControl,
@@ -10,7 +10,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  ModalFooter,
 } from "@chakra-ui/react";
+import ButtonPrimary from "../../atoms/buttons/ButtonPrimary";
 
 type Props = {
   isOpen: boolean;
@@ -21,10 +23,24 @@ type Props = {
     email: string;
     tel: string;
   };
+  isAdmin?: boolean;
 };
 
 const UserDetailModal: FC<Props> = memo((props) => {
-  const { isOpen, onClose, userObj } = props;
+  const { isOpen, onClose, userObj, isAdmin } = props;
+
+  const [updatedUser, setUpdatedUser] = useState<Props["userObj"]>(
+    {} as Props["userObj"]
+  );
+
+  useEffect(() => {
+    setUpdatedUser(userObj);
+  }, [userObj]);
+
+  const onClickUpdate = () => {
+    alert("updated");
+    onClose();
+  };
 
   return (
     <Modal
@@ -41,22 +57,52 @@ const UserDetailModal: FC<Props> = memo((props) => {
           <Stack spacing={4}>
             <FormControl>
               <FormLabel>Name</FormLabel>
-              <Input value={userObj.name} isReadOnly></Input>
+              <Input
+                value={updatedUser.name}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setUpdatedUser({ ...updatedUser, name: e.target.value })
+                }
+                isReadOnly={!isAdmin}
+              ></Input>
             </FormControl>
             <FormControl>
               <FormLabel>Full Name</FormLabel>
-              <Input value={userObj.fullName} isReadOnly></Input>
+              <Input
+                value={updatedUser.fullName}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setUpdatedUser({ ...updatedUser, fullName: e.target.value })
+                }
+                isReadOnly={!isAdmin}
+              ></Input>
             </FormControl>
             <FormControl>
               <FormLabel>Email</FormLabel>
-              <Input value={userObj.email} isReadOnly></Input>
+              <Input
+                value={updatedUser.email}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setUpdatedUser({ ...updatedUser, email: e.target.value })
+                }
+                isReadOnly={!isAdmin}
+              ></Input>
             </FormControl>
             <FormControl>
               <FormLabel>Tel</FormLabel>
-              <Input value={userObj.tel} isReadOnly></Input>
+              <Input
+                value={updatedUser.tel}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setUpdatedUser({ ...updatedUser, tel: e.target.value })
+                }
+                isReadOnly={!isAdmin}
+              ></Input>
             </FormControl>
           </Stack>
         </ModalBody>
+
+        {isAdmin && (
+          <ModalFooter>
+            <ButtonPrimary onClick={onClickUpdate}>Save edit</ButtonPrimary>
+          </ModalFooter>
+        )}
       </ModalContent>
     </Modal>
   );

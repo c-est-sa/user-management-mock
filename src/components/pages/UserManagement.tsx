@@ -34,7 +34,6 @@ const UserManagement: FC = memo(() => {
   });
 
   const { loginUser } = useLoginUser();
-  console.log(loginUser);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -85,6 +84,7 @@ const UserManagement: FC = memo(() => {
         isOpen={isOpen}
         onClose={onClose}
         userObj={clickedUser}
+        isAdmin={loginUser?.isAdmin}
       ></UserDetailModal>
     </>
   );
